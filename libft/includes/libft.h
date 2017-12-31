@@ -38,6 +38,7 @@ void				ft_tree_post(t_tree *root, void (*f)(int));
 void				ft_tree_add_elem(t_tree **root, t_tree *new);
 t_tree				*ft_new_tree_elem(int val);
 void				ft_del_content(void *content, size_t size);
+int					ft_lstlen(t_list *alst);
 void				ft_list_del_back(t_list **alst);
 void				ft_list_pushback(t_list **alst, t_list *new);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));

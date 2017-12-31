@@ -6,69 +6,25 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 15:23:40 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/30 21:19:08 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/31 19:08:03 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 #include <stdio.h>//delete_me
 
-int		find_way(t_list *connect, t_list **ways)
-{
-	t_list	*tmp;
-	t_list	*tag;
-
-	if (!connect)
-		return (0);
-	ft_printf("%s\n", (*((t_room*)(((t_list*)(connect->content))->content))).name);
-	if (ft_strequ((*((t_room*)(((t_list*)(connect->content))->content))).tag, START) ||
-	ft_strequ((*((t_room*)(((t_list*)(connect->content))->content))).tag, MARK))
-		return (0);
-	if (ft_strequ((*((t_room*)(((t_list*)(connect->content))->content))).tag, END))
-	{
-		ft_lstadd(&(*ways), ft_lstnew((*((t_room*)(((t_list*)(connect->content))->content))).name,
-		ft_strlen((*((t_room*)(((t_list*)(connect->content))->content))).name)));
-		return (1);
-	}
-	(*((t_room*)(((t_list*)(connect->content))->content))).tag = ft_strdup(MARK);
-	tag = connect;
-	while (connect)
-	{
-		tmp = (*((t_room*)(((t_list*)(connect->content))->content))).connect;
-		if (find_way(connect->next, ways) || find_way(tmp, ways))
-		{
-			ft_lstadd(&(*ways), ft_lstnew((*((t_room*)(((t_list*)(connect->content))->content))).name,
-			ft_strlen((*((t_room*)(((t_list*)(connect->content))->content))).name)));
-			return (1);
-		}
-		connect = connect->next;
-	}
-	ft_strdel(&(*((t_room*)(((t_list*)(tag->content))->content))).tag);
-	ft_list_del_back(&(*ways));
-	return (0);
-}
-
-void	call_find_way(t_list *rooms, t_list **ways)
-{
-	while (!ft_strequ((*((t_room*)rooms->content)).tag, START))
-		rooms = rooms->next;
-	find_way((t_list*)((*((t_room*)(rooms->content))).connect), ways);
-	while (*ways)
-	{
-		ft_printf("Room: %s\n", (char*)(*ways)->content);
-		*ways = (*ways)->next;
-	}
-}
-
-t_list	*read_input(void)
+t_list	*read_input(int *ants_num)
 {
 	t_list	*list;
 	char	*line;
 
 	list = NULL;
 	while (get_next_line(0, &line))
-		ft_list_pushback(&list, ft_lstnew(line, ft_strlen(line)));
-	return (valid_input(list));
+	{
+		ft_list_pushback(&list, ft_lstnew(line, ft_strlen(line) + 1));
+		ft_memdel((void**)(&line));
+	}
+	return (valid_input(list, &(*ants_num)));
 }
 
 void	print_rooms(t_list *rooms)
@@ -91,50 +47,44 @@ void	print_rooms(t_list *rooms)
 	}
 }
 
-int		count_connections(t_list *connect)
+void	print_ways(t_list **ways)
 {
-	int	len;
+	int	i;
 
-	len = 0;
-	while (connect)
+	i = -1;
+	while (ways[++i])
 	{
-		len++;
-		connect = connect->next;
+		ft_printf("\nNew way:\n");
+		while (ways[i])
+		{
+			ft_printf("Room: %s\n", (ways[i])->content);
+			ways[i] = (ways[i])->next;
+		}
 	}
-	return (len);
 }
 
-int		check_max_tunel(t_list *rooms)
-{
-	int		max_start;
-	int		max_end;
-	t_list	*tmp;
+// void	send_ants(t_list **ways, int a_num)
+// {
 
-	tmp = rooms;
-	while (tmp)
-	{
-		if (ft_strequ((*((t_room*)tmp->content)).tag, START))
-			max_start = count_connections((*((t_room*)tmp->content)).connect);
-		else if (ft_strequ((*((t_room*)tmp->content)).tag, END))
-			max_end = count_connections((*((t_room*)tmp->content)).connect);
-		tmp = tmp->next;
-	}
-	if (max_start < max_end)
-		return (max_start);
-	return (max_end);
-}
+// }
 
 int		main(void)
 {
 	t_list	*rooms;
 	t_list	**ways;
-	int		max_tunel;
+	int		ways_num;
+	int		i;
+	int		ants_num;
 	
-	rooms = read_input();
-	print_rooms(rooms);
-	max_tunel = check_max_tunel(rooms);
-	ways = (t_list**)malloc(sizeof(t_list*) * (max_tunel + 1));
-	while (max_tunel >= 0)
-		ways[max_tunel--] = NULL;
-	call_find_way(rooms, ways);
+	rooms = read_input(&ants_num);
+	// print_rooms(rooms);
+	ways_num = check_ways_num(rooms);
+	ways = (t_list**)malloc(sizeof(t_list*) * (ways_num + 1));
+	i = ways_num;
+	while (i >= 0)
+		ways[i--] = NULL;
+	call_find_way(rooms, ways, ways_num);
+	print_ways(ways);
+	// send_ants(ways, ants_num);
+	return (0);
 }
