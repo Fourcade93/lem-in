@@ -6,13 +6,13 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 18:55:44 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/31 18:56:12 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/01 14:32:07 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int		check_way_room(t_list **ways, int num, int count, char *name)
+int		check_way_room(t_dlist **ways, int num, int count, char *name)
 {
 	int	i;
 	int	j;
@@ -23,13 +23,13 @@ int		check_way_room(t_list **ways, int num, int count, char *name)
 		j = -1;
 		while (++j < count && ways[i])
 			ways[i] = (ways[i])->next;
-		if (j == count && ways[i] && ft_strequ((ways[i])->content, name))
+		if (j == count && ways[i] && ft_strequ((ways[i])->data, name))
 			return (1);
 	}
 	return (0);
 }
 
-void	check_short_way(t_list **ways, int num)
+void	check_short_way(t_dlist **ways, int num)
 {
 	int		max;
 	int		i;
@@ -37,61 +37,64 @@ void	check_short_way(t_list **ways, int num)
 	max = 0;
 	i = 0;
 	while (++i < num)
-		if (ft_lstlen(ways[max]) < ft_lstlen(ways[i]))
+		if (ft_dlstlen(ways[max]) < ft_dlstlen(ways[i]))
 			max = i;
-	if (ft_lstlen(ways[num]) <= ft_lstlen(ways[max]))
+	if (ft_dlstlen(ways[num]) <= ft_dlstlen(ways[max]))
 	{
-		ft_lstdel(&(ways[num]), &ft_del_content);
+		ft_dlstdel(&(ways[num]), &ft_del_content);
 		return ;
 	}
-	ft_lstdel(&(ways[max]), &ft_del_content);
+	ft_dlstdel(&(ways[max]), &ft_del_content);
 	ways[max] = ways[num];
 	ways[num] = NULL;
 }
 
-int		find_way_help(t_list *connect, t_list **ways, int num[2], int count)
+int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
 {
-	t_room	tmp;
+	t_room	*tmp;
 	t_list	*buf;
 
 	while (connect)
 	{
-		tmp = *((t_room*)(((t_list*)(connect->content))->content));
+		tmp = (t_room*)(((t_list*)(connect->content))->content);
 		buf = (*((t_room*)(((t_list*)(connect->content))->content))).connect;
-		if (!ft_strequ(tmp.tag, START) && !ft_strequ(tmp.tag, MARK))
+		if (!ft_strequ((*tmp).tag, START) && !ft_strequ((*tmp).tag, MARK))
 		{
-			(*((t_room*)(((t_list*)(connect->content))->content))).tag = ft_strdup(MARK);
-			if (!check_way_room(ways, num[0], count, tmp.name) &&
+			(*tmp).tag = ft_strdup(MARK);
+			if (!check_way_room(ways, num[0], count, (*tmp).name) &&
 			find_way(buf, ways, num, count + 1))
 			{
-				ft_lstadd(&(ways[num[0]]), ft_lstnew(tmp.name, ft_strlen(tmp.name)));
+				ft_dlstadd(&(ways[num[0]]), ft_dlstnew((*tmp).name,
+					ft_strlen((*tmp).name)));
 				if (count > 0)
 					return (num[0]);
 				else if (num[1] == num[0] && ways[num[1]])
 					check_short_way(ways, num[1]);
 			}
-			ft_strdel(&(*((t_room*)(((t_list*)(connect->content))->content))).tag);
+			ft_strdel(&(*tmp).tag);
 		}
 		connect = connect->next;
 	}
 	return (0);
 }
 
-int		find_way(t_list *connect, t_list **ways, int num[2], int count)
+int		find_way(t_list *connect, t_dlist **ways, int num[2], int count)
 {
 	t_list	*tmp;
+	t_room	*buf;
 
 	if (!connect)
 		return (0);
 	tmp = connect;
 	while (tmp)
 	{
-		if (ft_strequ((*((t_room*)(((t_list*)(tmp->content))->content))).tag, END))
+		buf = ((t_room*)(((t_list*)(tmp->content))->content));
+		if (ft_strequ((*buf).tag, END))
 		{
 			if (ways[num[0]])
 				num[0] += 1;
-			ft_lstadd(&(ways[num[0]]), ft_lstnew((*((t_room*)(((t_list*)(tmp->content))->content))).name,
-							ft_strlen((*((t_room*)(((t_list*)(tmp->content))->content))).name)));
+			ft_dlstadd(&(ways[num[0]]), ft_dlstnew((*buf).name,
+							ft_strlen((*buf).name)));
 			return (1);
 		}
 		tmp = tmp->next;
@@ -99,13 +102,25 @@ int		find_way(t_list *connect, t_list **ways, int num[2], int count)
 	return (find_way_help(connect, &(*ways), num, count));
 }
 
-void	call_find_way(t_list *rooms, t_list **ways, int	ways_num)
+void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
 {
 	int		num[2];
+	int		i;
+	t_dlist	*tmp;
 
 	while (!ft_strequ((*((t_room*)rooms->content)).tag, START))
 		rooms = rooms->next;
 	num[0] = 0;
 	num[1] = ways_num;
 	find_way((t_list*)((*((t_room*)(rooms->content))).connect), ways, num, 0);
+	i = -1;
+	while (ways[++i])
+	{
+		tmp = ways[i];
+		while (tmp)
+		{
+			tmp->data_size = 0;
+			tmp = tmp->next;
+		}
+	}
 }

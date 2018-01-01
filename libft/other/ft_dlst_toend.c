@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlen.c                                        :+:      :+:    :+:   */
+/*   ft_dlst_toend.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/31 13:36:19 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/31 13:36:20 by fmallaba         ###   ########.fr       */
+/*   Created: 2018/01/01 14:08:33 by fmallaba          #+#    #+#             */
+/*   Updated: 2018/01/01 14:08:35 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstlen(t_list *alst)
+void	ft_dlst_toend(t_dlist **alst)
 {
-	int	len;
-
-	len = 0;
-	while (alst)
-	{
-		len++;
-		alst = alst->next;
-	}
-	return (len);
+	if (!alst)
+		return ;
+	while ((*alst)->next)
+		(*alst) = (*alst)->next;
 }

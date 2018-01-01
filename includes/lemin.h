@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 15:32:22 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/31 18:58:13 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/01 14:06:14 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ typedef struct		s_room
 }					t_room;
 
 void				delone_room(void *content, size_t size);
-t_room	*check_room(char *str, char *tag);
-t_list	*check_all_rooms(t_list **list, t_list *rooms);
-int		check_connections(t_list *rooms, t_list *list);
-void	error_mngr(int error, t_list *list, t_list *rooms);
-t_list	*valid_input(t_list *list, int *ants_num);
-int		find_way(t_list *connect, t_list **ways, int num[2], int count);
-void	call_find_way(t_list *rooms, t_list **ways, int	ways_num);
-int		check_ways_num(t_list *rooms);
+t_room				*check_room(char *str, char *tag);
+t_list				*check_all_rooms(t_list **list, t_list *rooms);
+int					check_connections(t_list *rooms, t_list *list);
+void				error_mngr(int error, t_list *list, t_list *rooms);
+t_list				*valid_input(t_list *list, int *ants_num);
+int					find_way(t_list *connect, t_dlist **ways,
+												int num[2], int count);
+void				call_find_way(t_list *rooms, t_dlist **ways,
+												int ways_num);
+int					check_ways_num(t_list *rooms);
 
 #endif

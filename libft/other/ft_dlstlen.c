@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int	ft_lstlen(t_list *alst)
+int	ft_dlstlen(t_dlist *alst)
 {
 	int	len;
 

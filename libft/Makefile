@@ -16,7 +16,9 @@ PART_TWO := $(addprefix part_two/, $(PART_TWO))
 OTHER := ft_tree_pre.c ft_tree_in.c ft_tree_post.c ft_tree_add_elem.c \
 ft_new_tree_elem.c ft_list_pushback.c ft_lstmap.c ft_lstiter.c \
 ft_lstadd.c ft_lstdel.c ft_lstdelone.c ft_lstnew.c get_next_line.c \
-ft_swap.c ft_del_content.c ft_list_del_back.c ft_lstlen.c
+ft_swap.c ft_del_content.c ft_list_del_back.c ft_lstlen.c \
+ft_dlst_pushback.c ft_dlstadd.c ft_dlstdel.c ft_dlstnew.c ft_dlstlen.c \
+ft_dlst_toend.c
 OTHER := $(addprefix other/, $(OTHER))
 
 FT_PRINTF := get_spec.c helpers.c itoa_base.c outputs.c printf_helpers.c \

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlen.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/31 13:36:19 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/31 13:36:20 by fmallaba         ###   ########.fr       */
+/*   Created: 2017/11/03 21:47:22 by fmallaba          #+#    #+#             */
+/*   Updated: 2017/11/22 11:57:34 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstlen(t_list *alst)
+void	ft_dlstadd(t_dlist **alst, t_dlist *new)
 {
-	int	len;
+	t_dlist	*head;
 
-	len = 0;
-	while (alst)
+	if (alst != NULL && new != NULL)
 	{
-		len++;
-		alst = alst->next;
+		head = (*alst);
+		new->next = head;
+		if (head)
+			head->prev = new;
+		(*alst) = new;
 	}
-	return (len);
 }

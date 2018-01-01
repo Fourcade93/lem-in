@@ -24,6 +24,14 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_dlist
+{
+	void			*data;
+	size_t			data_size;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}					t_dlist;
+
 typedef struct		s_tree
 {
 	int				val;
@@ -31,6 +39,12 @@ typedef struct		s_tree
 	struct s_tree	*right;
 }					t_tree;
 
+void				ft_dlst_toend(t_dlist **alst);
+int					ft_dlstlen(t_dlist *alst);
+void				ft_dlst_pushback(t_dlist **alst, t_dlist *new);
+void				ft_dlstadd(t_dlist **alst, t_dlist *new);
+void				ft_dlstdel(t_dlist **alst, void (*del)(void *, size_t));
+t_dlist				*ft_dlstnew(void const *data, size_t data_size);
 void				ft_swap(int *a, int *b);
 void				ft_tree_pre(t_tree *root, void (*f)(int));
 void				ft_tree_in(t_tree *root, void (*f)(int));
