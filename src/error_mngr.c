@@ -18,6 +18,7 @@ void	delone_room(void *content, size_t size)
 
 	room = (t_room*)content;
 	ft_strdel(&((*room).name));
+	ft_strdel(&((*room).tag));
 	ft_lstdel(&((*room).connect), &ft_del_content);
 	free(room);
 	size = 0;

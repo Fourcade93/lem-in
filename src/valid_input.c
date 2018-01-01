@@ -22,24 +22,20 @@ int		only_digit(char *str)
 
 int		check_start_end(t_list *list)
 {
-	int	start;
-	int	end;
+	int		start;
+	int		end;
+	t_room	*room;
 
 	start = 0;
 	end = 0;
 	while (list)
 	{
-		if (ft_strequ(list->content, START))
+		if (ft_strequ(list->content, START) || ft_strequ(list->content, END))
 		{
-			start++;
-			if (!check_room(list->next->content, NULL))
+			(ft_strequ(list->content, START)) ? start++ : end++;
+			if (!(room = check_room(list->next->content, NULL)))
 				return (0);
-		}
-		if (ft_strequ(list->content, END))
-		{
-			end++;
-			if (!check_room(list->next->content, NULL))
-				return (0);
+			delone_room(room, 0);
 		}
 		list = list->next;
 	}

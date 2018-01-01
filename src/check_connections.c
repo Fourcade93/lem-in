@@ -12,6 +12,20 @@
 
 #include "lemin.h"
 
+int		check_dif_connect(t_list *buf, char *name)
+{
+	char	*name2;
+
+	while (buf)
+	{
+		name2 = (*((t_room*)(((t_list*)(buf->content))->content))).name;
+		if (ft_strequ(name, name2))
+			return (0);
+		buf = buf->next;
+	}
+	return (1);
+}
+
 int		add_connect_help(t_list *rooms, char *str, t_list *tmp)
 {
 	t_list	*buf;
@@ -26,10 +40,12 @@ int		add_connect_help(t_list *rooms, char *str, t_list *tmp)
 	ft_strlen((*((t_room*)rooms->content)).name))
 		return (0);
 	buf = (*((t_room*)tmp->content)).connect;
-	ft_list_pushback(&buf, ft_lstnew(rooms, sizeof(t_list)));
+	if (check_dif_connect(buf, (*((t_room*)(rooms->content))).name))
+		ft_list_pushback(&buf, ft_lstnew(rooms, sizeof(t_list)));
 	(*((t_room*)tmp->content)).connect = buf;
 	buf = (*((t_room*)rooms->content)).connect;
-	ft_list_pushback(&buf, ft_lstnew(tmp, sizeof(t_list)));
+	if (check_dif_connect(buf, (*((t_room*)(tmp->content))).name))
+		ft_list_pushback(&buf, ft_lstnew(tmp, sizeof(t_list)));
 	(*((t_room*)rooms->content)).connect = buf;
 	return (1);
 }

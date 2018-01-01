@@ -52,26 +52,24 @@ void	check_short_way(t_dlist **ways, int num)
 int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
 {
 	t_room	*tmp;
-	t_list	*buf;
 
 	while (connect)
 	{
 		tmp = (t_room*)(((t_list*)(connect->content))->content);
-		buf = (*((t_room*)(((t_list*)(connect->content))->content))).connect;
 		if (!ft_strequ((*tmp).tag, START) && !ft_strequ((*tmp).tag, MARK))
 		{
 			(*tmp).tag = ft_strdup(MARK);
 			if (!check_way_room(ways, num[0], count, (*tmp).name) &&
-			find_way(buf, ways, num, count + 1))
+			find_way((*tmp).connect, ways, num, count + 1))
 			{
+				ft_strdel(&(*tmp).tag);
 				ft_dlstadd(&(ways[num[0]]), ft_dlstnew((*tmp).name,
-					ft_strlen((*tmp).name)));
+					ft_strlen((*tmp).name) + 1));
 				if (count > 0)
-					return (num[0]);
+					return (1);
 				else if (num[1] == num[0] && ways[num[1]])
 					check_short_way(ways, num[1]);
 			}
-			ft_strdel(&(*tmp).tag);
 		}
 		connect = connect->next;
 	}
@@ -94,7 +92,7 @@ int		find_way(t_list *connect, t_dlist **ways, int num[2], int count)
 			if (ways[num[0]])
 				num[0] += 1;
 			ft_dlstadd(&(ways[num[0]]), ft_dlstnew((*buf).name,
-							ft_strlen((*buf).name)));
+							ft_strlen((*buf).name) + 1));
 			return (1);
 		}
 		tmp = tmp->next;

@@ -99,5 +99,10 @@ int		main(void)
 		ways[i--] = NULL;
 	call_find_way(rooms, ways, ways_num);
 	call_send_ants(ways, ants_num);
+	i = -1;
+	while (ways[++i])
+		ft_dlstdel(&(ways[i]), &ft_del_content);
+	free(ways);
+	ft_lstdel(&rooms, &delone_room);
 	return (0);
 }

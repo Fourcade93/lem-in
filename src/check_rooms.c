@@ -84,7 +84,9 @@ int		check_duplicate_room(t_list *rooms)
 t_list	*check_all_rooms(t_list **list, t_list *rooms)
 {
 	t_room	*room;
+	t_list	*tmp;
 
+	tmp = *list;
 	while ((*list))
 	{
 		if (((char*)(*list)->content)[0] != '#' &&
@@ -103,9 +105,10 @@ t_list	*check_all_rooms(t_list **list, t_list *rooms)
 			ft_list_pushback(&rooms, ft_lstnew(room, sizeof(t_room)));
 		else if (((char*)(*list)->content)[0] != '#')
 			error_mngr(3, *list, rooms);
+		room = NULL;
 		(*list) = (*list)->next;
 	}
 	if (!(*list) || !check_duplicate_room(rooms))
-		error_mngr(3, *list, rooms);
+		error_mngr(3, tmp, rooms);
 	return (rooms);
 }
