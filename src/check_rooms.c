@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:14:41 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/29 14:49:25 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/02 18:53:06 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,18 @@ t_room	*check_room(char *str, char *tag)
 void	check_all_rooms_help(t_list **list, t_list **rooms)
 {
 	t_room	*room;
+	char	*tag;
 
 	if (ft_strequ((*list)->content, START))
-		room = check_room((*list)->next->content, START);
+		tag = ft_strdup(START);
 	else
-		room = check_room((*list)->next->content, END);
+		tag = ft_strdup(END);
 	(*list) = (*list)->next;
+	while ((*list) && *((char*)((*list)->content)) == '#')
+		(*list) = (*list)->next;
+	room = check_room((*list)->content, tag);
 	ft_list_pushback(&(*rooms), new_list(room));
+	ft_strdel(&tag);
 }
 
 t_list	*check_all_rooms(t_list **list, t_list *rooms)

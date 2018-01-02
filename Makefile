@@ -22,6 +22,9 @@ $(NAME): $(OBJ)
 %.o: %.c
 	@$(CC) $(FLAGS) -c -o $@ $< -I$(LIB_INC_DIR) -I$(INC_DIR)
 
+visualize: visual.c
+	$(CC) $(FLAGS) -o $@ $< $(INC_LIB) -I$(LIB_INC_DIR) -I$(INC_DIR)
+
 clean:
 	@/bin/rm -f $(OBJ)
 	@make clean -C $(LIB_DIR)

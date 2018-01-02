@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 18:55:44 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/01 14:32:07 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/02 19:42:55 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 int		check_way_room(t_dlist **ways, int num, int count, char *name)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	t_dlist	*tmp;
 
 	i = -1;
 	while (++i < num)
 	{
 		j = -1;
-		while (++j < count && ways[i])
-			ways[i] = (ways[i])->next;
-		if (j == count && ways[i] && ft_strequ((ways[i])->data, name))
+		tmp = ways[i];
+		while (++j < count && tmp)
+			tmp = tmp->next;
+		if (j == count && tmp && ft_strequ(tmp->data, name))
 			return (1);
 	}
 	return (0);
@@ -70,6 +72,7 @@ int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
 				else if (num[1] == num[0] && ways[num[1]])
 					check_short_way(ways, num[1]);
 			}
+			ft_strdel(&(*tmp).tag);
 		}
 		connect = connect->next;
 	}

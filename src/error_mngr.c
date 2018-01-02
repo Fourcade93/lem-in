@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:15:56 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/29 14:16:28 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/02 16:38:29 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ void	delone_room(void *content, size_t size)
 void	error_mngr(int error, t_list *list, t_list *rooms)
 {
 	if (error == 1)
-		ft_printf(ER_NUM_ANTS);
+		ft_printf("ERROR\n");
 	if (error == 2)
-		ft_printf(ER_START_END);
+		ft_printf("ERROR\n");
 	if (error == 3)
-		ft_printf(ER_ROOM);
+		ft_printf("ERROR\n");
 	if (error == 4)
-		ft_printf(ER_ROOM_CONNECTS);
+		ft_printf("ERROR\n");
 	if (error == 5)
-		ft_printf(ER_WAY);
+		ft_printf("ERROR\n");
 	ft_lstdel(&list, &ft_del_content);
 	ft_lstdel(&rooms, &delone_room);
 	exit(-1);

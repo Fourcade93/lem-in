@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:12:23 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/31 17:21:37 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/02 18:47:06 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,26 @@ int		only_digit(char *str)
 	return (1);
 }
 
+int		check_room_after(t_list *list)
+{
+	t_room	*room;
+
+	while (list && *((char*)(list->content)) == '#')
+	{
+		if (ft_strequ(list->content, START) || ft_strequ(list->content, END))
+			return (0);
+		list = list->next;
+	}
+	if (!list || !(room = check_room(list->content, NULL)))
+		return (0);
+	delone_room(room, 0);
+	return (1);
+}
+
 int		check_start_end(t_list *list)
 {
 	int		start;
 	int		end;
-	t_room	*room;
 
 	start = 0;
 	end = 0;
@@ -33,9 +48,8 @@ int		check_start_end(t_list *list)
 		if (ft_strequ(list->content, START) || ft_strequ(list->content, END))
 		{
 			(ft_strequ(list->content, START)) ? start++ : end++;
-			if (!(room = check_room(list->next->content, NULL)))
+			if (!check_room_after(list->next))
 				return (0);
-			delone_room(room, 0);
 		}
 		list = list->next;
 	}

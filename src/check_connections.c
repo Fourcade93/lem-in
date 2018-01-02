@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:15:19 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/29 14:52:39 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/02 19:12:29 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int		add_connect(t_list *rooms, char *str)
 	if (!tmp || *(str + ft_strlen(((*(t_room*)tmp->content)).name)) != '-')
 		return (0);
 	str = ft_strchr(str, '-');
-	if (!add_connect_help(rooms, ++str, tmp))
+	if (ft_strequ((*(t_room*)tmp->content).name, str + 1) ||
+	!add_connect_help(rooms, ++str, tmp))
 		return (0);
 	return (1);
 }
