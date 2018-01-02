@@ -121,4 +121,9 @@ void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
 			tmp = tmp->next;
 		}
 	}
+	if (i == 0)
+	{
+		free(ways);
+		error_mngr(5, NULL, rooms);
+	}
 }

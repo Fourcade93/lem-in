@@ -12,6 +12,17 @@
 
 #include "lemin.h"
 
+t_list	*new_list(t_room *room)
+{
+	t_list	*new;
+
+	new = (t_list*)malloc(sizeof(t_list));
+	new->content = room;
+	new->content_size = 0;
+	new->next = NULL;
+	return (new);
+}
+
 t_room	*create_room(char *str, char *tag)
 {
 	t_room	*room;
@@ -57,28 +68,16 @@ t_room	*check_room(char *str, char *tag)
 	return (create_room(tmp, tag));
 }
 
-int		check_if_duplicate(t_room room, t_list *rooms)
+void	check_all_rooms_help(t_list **list, t_list **rooms)
 {
-	while (rooms)
-	{
-		if (ft_strequ(room.name, (*((t_room*)rooms->content)).name) ||
-			(room.x == (*((t_room*)(rooms->content))).x &&
-			room.y == (*((t_room*)rooms->content)).y))
-			return (1);
-		rooms = rooms->next;
-	}
-	return (0);
-}
+	t_room	*room;
 
-int		check_duplicate_room(t_list *rooms)
-{
-	while (rooms && rooms->next)
-	{
-		if (check_if_duplicate(*(t_room*)rooms->content, rooms->next))
-			return (0);
-		rooms = rooms->next;
-	}
-	return (1);
+	if (ft_strequ((*list)->content, START))
+		room = check_room((*list)->next->content, START);
+	else
+		room = check_room((*list)->next->content, END);
+	(*list) = (*list)->next;
+	ft_list_pushback(&(*rooms), new_list(room));
 }
 
 t_list	*check_all_rooms(t_list **list, t_list *rooms)
@@ -92,20 +91,14 @@ t_list	*check_all_rooms(t_list **list, t_list *rooms)
 		if (((char*)(*list)->content)[0] != '#' &&
 			ft_strchr((*list)->content, '-'))
 			break ;
-		else if ((ft_strequ((*list)->content, START) &&
-			(room = check_room((*list)->next->content, START))) ||
-			(ft_strequ((*list)->content, END) &&
-			(room = check_room((*list)->next->content, END))))
-		{
-			(*list) = (*list)->next;
-			ft_list_pushback(&rooms, ft_lstnew(room, sizeof(t_room)));
-		}
+		else if (ft_strequ((*list)->content, START) ||
+					ft_strequ((*list)->content, END))
+			check_all_rooms_help(&(*list), &rooms);
 		else if (((char*)(*list)->content)[0] != '#' &&
-			(room = check_room((*list)->content, NULL)))
-			ft_list_pushback(&rooms, ft_lstnew(room, sizeof(t_room)));
+					(room = check_room((*list)->content, NULL)))
+			ft_list_pushback(&rooms, new_list(room));
 		else if (((char*)(*list)->content)[0] != '#')
 			error_mngr(3, *list, rooms);
-		room = NULL;
 		(*list) = (*list)->next;
 	}
 	if (!(*list) || !check_duplicate_room(rooms))

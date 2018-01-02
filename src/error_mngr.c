@@ -20,7 +20,7 @@ void	delone_room(void *content, size_t size)
 	ft_strdel(&((*room).name));
 	ft_strdel(&((*room).tag));
 	ft_lstdel(&((*room).connect), &ft_del_content);
-	free(room);
+	free(content);
 	size = 0;
 }
 
@@ -34,6 +34,8 @@ void	error_mngr(int error, t_list *list, t_list *rooms)
 		ft_printf(ER_ROOM);
 	if (error == 4)
 		ft_printf(ER_ROOM_CONNECTS);
+	if (error == 5)
+		ft_printf(ER_WAY);
 	ft_lstdel(&list, &ft_del_content);
 	ft_lstdel(&rooms, &delone_room);
 	exit(-1);
