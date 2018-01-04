@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:12:23 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/02 18:47:06 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/04 20:32:45 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int		check_start_end(t_list *list)
 		return (1);
 	return (0);
 }
-
 t_list	*valid_input(t_list *list, int *ants_num)
 {
 	t_list	*rooms;
@@ -75,6 +74,5 @@ t_list	*valid_input(t_list *list, int *ants_num)
 		error_mngr(3, tmp, rooms);
 	if (!list || !check_connections(rooms, list))
 		error_mngr(4, tmp, rooms);
-	ft_lstdel(&tmp, &ft_del_content);
 	return (rooms);
 }

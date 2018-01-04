@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 15:32:22 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/01 14:06:14 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/04 16:05:02 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int					find_way(t_list *connect, t_dlist **ways,
 void				call_find_way(t_list *rooms, t_dlist **ways,
 												int ways_num);
 int					check_ways_num(t_list *rooms);
-void				call_send_ants(t_dlist **ways, int a_num);
+void				call_send_ants(t_dlist **ways, int a_num, t_list *input);
 
 #endif

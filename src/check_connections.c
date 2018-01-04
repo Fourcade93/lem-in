@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:15:19 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/02 19:12:29 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/04 20:32:47 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		add_connect_help(t_list *rooms, char *str, t_list *tmp)
 
 	while (rooms)
 	{
-		if (ft_strstr(str, (*((t_room*)rooms->content)).name))
+		if (ft_strequ(str, (*((t_room*)rooms->content)).name))
 			break ;
 		rooms = rooms->next;
 	}
@@ -56,10 +56,12 @@ int		add_connect(t_list *rooms, char *str)
 	int		len;
 
 	tmp = rooms;
-	len = ft_strlen(((*(t_room*)tmp->content)).name);
+	if (!ft_strchr(str, '-'))
+		return (0);
+	len = ft_strchr(str, '-') - str;
 	while (tmp)
 	{
-		if (ft_strnstr(str, ((*(t_room*)tmp->content)).name, len))
+		if (!ft_strncmp(str, ((*(t_room*)tmp->content)).name, len))
 			break ;
 		tmp = tmp->next;
 	}

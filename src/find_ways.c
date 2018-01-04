@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 18:55:44 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/02 19:42:55 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/04 20:58:34 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,10 @@ void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
 	while (ways[++i])
 	{
 		tmp = ways[i];
+		// ft_printf("\nnew way\n");
 		while (tmp)
 		{
+			// ft_printf("%s\n", tmp->data);
 			tmp->data_size = 0;
 			tmp = tmp->next;
 		}
