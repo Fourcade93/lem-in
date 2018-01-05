@@ -6,13 +6,36 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 14:43:58 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/04 21:06:38 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:09:14 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-void	send_ants_help(int *end, int *check, t_dlist **ways, int pos);
-int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos, int *end, int *check)
+
+void	move_ant(t_dlist *way, char *room, int end[2])
+{
+	ft_dlst_toend(&way);
+	while (way->prev)
+	{
+		way = way->prev;
+		if (way->data_size)
+		{
+			if (end[1])
+				ft_printf(" ");
+			ft_printf("L%d-%s", way->data_size, way->next->data);
+			if (!(way->next->next))
+				end[0] += 1;
+			else
+				way->next->data_size = way->data_size;
+			way->data_size = 0;
+			end[1] += 1;
+			if (ft_strequ(way->data, room))
+				return ;
+		}
+	}
+}
+
+int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos, int end[2])
 {
 	int		i;
 	t_dlist	*tmp;
@@ -25,15 +48,21 @@ int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos, int *end, int *ch
 			while (tmp)
 			{
 				if (ft_strequ(tmp->data, way->data) &&
+				tmp->data_size && i < pos)
+					return (0);
+				if (ft_strequ(tmp->data, way->data) &&
 				tmp->data_size)
-					send_ants_help(&(*end), &(*check), ways, i);
+				{
+					move_ant(ways[i], way->data, end);
+					break ;
+				}
 				tmp = tmp->next;
 			}
 	}
 	return (1);
 }
 
-void	send_ants_help(int *end, int *check, t_dlist **ways, int pos)
+void	send_ants_help(int end[2], t_dlist **ways, int pos)
 {
 	t_dlist	*way;
 
@@ -42,38 +71,37 @@ void	send_ants_help(int *end, int *check, t_dlist **ways, int pos)
 	while (way->prev)
 	{
 		way = way->prev;
-		if (way->data_size && check_if_free_room(ways, way->next, pos, &(*end), &(*check)))
+		if (way->data_size && check_if_free_room(ways, way->next, pos, end))
 		{
-			if (*check)
+			if (end[1])
 				ft_printf(" ");
 			ft_printf("L%d-%s", way->data_size, way->next->data);
 			if (!(way->next->next))
-				*end += 1;
+				end[0] += 1;
 			else
 				way->next->data_size = way->data_size;
 			way->data_size = 0;
-			*check += 1;
+			end[1] += 1;
 		}
 	}
 }
 
-void	send_ants(t_dlist **ways, int a_num, int *cur, int *end)
+void	send_ants(t_dlist **ways, int a_num, int *cur, int end[2])
 {
 	int	i;
-	int	check;
 
 	i = -1;
-	check = 0;
+	end[1] = 0;
 	while (ways[++i])
 	{
-		send_ants_help(&(*end), &check, ways, i);
-		if (*cur <= a_num)
+		send_ants_help(end, ways, i);
+		if (*cur <= a_num && !(ways[i])->data_size)
 		{
-			if (check)
+			if (end[1])
 				ft_printf(" ");
 			ft_printf("L%d-%s", *cur, (ways[i])->data);
 			(ways[i])->data_size = *cur;
-			check++;
+			end[1] += 1;
 			*cur += 1;
 		}
 	}
@@ -82,20 +110,20 @@ void	send_ants(t_dlist **ways, int a_num, int *cur, int *end)
 void	call_send_ants(t_dlist **ways, int a_num, t_list *input)
 {
 	int	cur;
-	int	end;
+	int	end[2];
 
 	cur = 1;
-	end = 0;
+	end[0] = 0;
 	while (input)
 	{
-		// ft_printf("%s\n", input->content);
+		ft_printf("%s\n", input->content);
 		input = input->next;
 	}
 	ft_printf("\n");
-	while (end < a_num)
+	while (end[0] < a_num)
 	{
-		usleep(100000);
-		send_ants(ways, a_num, &cur, &end);
+		// usleep(100000);
+		send_ants(ways, a_num, &cur, end);
 		ft_printf("\n");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 18:55:44 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/04 20:58:34 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:16:22 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
 		if (!ft_strequ((*tmp).tag, START) && !ft_strequ((*tmp).tag, MARK))
 		{
 			(*tmp).tag = ft_strdup(MARK);
-			if (!check_way_room(ways, num[0], count, (*tmp).name) &&
-			find_way((*tmp).connect, ways, num, count + 1))
+			if (/*!check_way_room(ways, num[0], count, (*tmp).name) &&
+			*/find_way((*tmp).connect, ways, num, count + 1))
 			{
 				ft_strdel(&(*tmp).tag);
 				ft_dlstadd(&(ways[num[0]]), ft_dlstnew((*tmp).name,
