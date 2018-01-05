@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 00:53:32 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/28 15:40:36 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/05 17:17:25 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct		s_tree
 	struct s_tree	*right;
 }					t_tree;
 
+void				ft_dlstdel_back(t_dlist **alst, void (*del)(void *, size_t));
+void				ft_dlstdelone(t_dlist **alst, void (*del)(void *, size_t));
 void				ft_dlst_toend(t_dlist **alst);
 int					ft_dlstlen(t_dlist *alst);
 void				ft_dlst_pushback(t_dlist **alst, t_dlist *new);
@@ -53,7 +55,7 @@ void				ft_tree_add_elem(t_tree **root, t_tree *new);
 t_tree				*ft_new_tree_elem(int val);
 void				ft_del_content(void *content, size_t size);
 int					ft_lstlen(t_list *alst);
-void				ft_list_del_back(t_list **alst);
+void				ft_list_del_back(t_list **alst, void (*del)(void *, size_t));
 void				ft_list_pushback(t_list **alst, t_list *new);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
