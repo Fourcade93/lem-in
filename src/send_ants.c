@@ -12,29 +12,6 @@
 
 #include "lemin.h"
 
-void	move_ant(t_dlist *way, char *room, int end[2])
-{
-	ft_dlst_toend(&way);
-	while (way->prev)
-	{
-		way = way->prev;
-		if (way->data_size)
-		{
-			if (end[1])
-				ft_printf(" ");
-			ft_printf("L%d-%s", way->data_size, way->next->data);
-			if (!(way->next->next))
-				end[0] += 1;
-			else
-				way->next->data_size = way->data_size;
-			way->data_size = 0;
-			end[1] += 1;
-			if (ft_strequ(way->data, room))
-				return ;
-		}
-	}
-}
-
 int		check_for_start(t_dlist **ways, t_dlist *way, int pos)
 {
 	int		i;
@@ -56,13 +33,12 @@ int		check_for_start(t_dlist **ways, t_dlist *way, int pos)
 	return (1);
 }
 
-int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos, int end[2])
+int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos)
 {
 	int		i;
 	t_dlist	*tmp;
 
 	i = -1;
-	(void)end;//delete_me
 	while (ways[++i])
 	{
 		tmp = ways[i];
@@ -72,12 +48,6 @@ int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos, int end[2])
 				if (ft_strequ(tmp->data, way->data) &&
 				tmp->data_size)
 					return (0);
-				// if (ft_strequ(tmp->data, way->data) &&
-				// tmp->data_size)
-				// {
-				// 	move_ant(ways[i], way->data, end);
-				// 	break ;
-				// }
 				tmp = tmp->next;
 			}
 	}
@@ -94,7 +64,7 @@ void	send_ants_help(int end[2], t_dlist **ways, int pos)
 	{
 		way = way->prev;
 		if (way->data_size && !way->next->data_size &&
-			check_if_free_room(ways, way->next, pos, end))
+			check_if_free_room(ways, way->next, pos))
 		{
 			if (end[1])
 				ft_printf(" ");
@@ -115,11 +85,11 @@ void	send_ants(t_dlist **ways, int a_num, int *cur, int end[2])
 
 	i = -1;
 	end[1] = 0;
-	
 	while (ways[++i])
 	{
 		send_ants_help(end, ways, i);
-		if (*cur <= a_num && !(ways[i])->data_size && check_for_start(ways, ways[i], i))
+		if (*cur <= a_num && !(ways[i])->data_size &&
+			check_for_start(ways, ways[i], i))
 		{
 			if (end[1])
 				ft_printf(" ");
@@ -153,7 +123,6 @@ void	call_send_ants(t_dlist **ways, int a_num, t_list *input)
 		}
 	while (end[0] < a_num)
 	{
-		// usleep(100000);
 		send_ants(ways, a_num, &cur, end);
 		ft_printf("\n");
 	}

@@ -6,56 +6,11 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 18:55:44 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/05 20:10:05 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/09 14:45:58 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-void	print_ways(t_dlist **ways);//delete_me
-int		check_way_room(t_dlist **ways, int num, int count, char *name)
-{
-	int		i;
-	int		j;
-	t_dlist	*tmp;
-
-	i = -1;
-	while (++i < num)
-	{
-		j = -1;
-		tmp = ways[i];
-		while (++j < count && tmp)
-			tmp = tmp->next;
-		if (j == count && tmp && ft_strequ(tmp->data, name))
-			return (1);
-	}
-	return (0);
-}
-
-void	check_short_way(t_dlist **ways, int num)
-{
-	int		max;
-	int		i;
-
-	max = 0;
-	i = 0;
-	while (++i < num)
-		if (ft_dlstlen(ways[max]) < ft_dlstlen(ways[i]))
-			max = i;
-	if (ft_dlstlen(ways[num]) < ft_dlstlen(ways[max]))
-	{
-		ft_dlstdel(&(ways[max]), &ft_del_content);
-		ways[max] = ways[num];
-	}
-}
-
-void	lstcpy(t_dlist *src, t_dlist **dst)
-{
-	while (src)
-	{
-		ft_dlst_pushback(&(*dst), ft_dlstnew(src->data, src->data_size));
-		src = src->next;
-	}
-}
 
 int		check_same_room(t_dlist **ways, int num[2])
 {
@@ -83,7 +38,12 @@ void	check_ways(t_dlist **ways, int num[2])
 {
 	int		same;
 
-	if ((same = check_same_room(ways, num)) != -1)
+	if (num[0] == 0)
+	{
+		lstcpy(ways[0], &(ways[1]));
+		num[0] += 1;
+	}
+	else if ((same = check_same_room(ways, num)) != -1)
 	{
 		if (ft_dlstlen(ways[same]) > ft_dlstlen(ways[num[0]]))
 		{
@@ -107,7 +67,8 @@ int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
 	while (connect)
 	{
 		tmp = (t_room*)(((t_list*)(connect->content))->content);
-		if (!(*tmp).tag || (!ft_strequ((*tmp).tag, START) && !ft_strequ((*tmp).tag, MARK)))
+		if (!(*tmp).tag || (!ft_strequ((*tmp).tag, START) &&
+			!ft_strequ((*tmp).tag, MARK)))
 		{
 			(*tmp).tag = ft_strdup(MARK);
 			ft_dlst_pushback(&(ways[num[0]]), ft_dlstnew((*tmp).name,
@@ -138,13 +99,7 @@ int		find_way(t_list *connect, t_dlist **ways, int num[2], int count)
 		{
 			ft_dlst_pushback(&(ways[num[0]]), ft_dlstnew((*buf).name,
 							ft_strlen((*buf).name) + 1));
-			if (num[0] == 0)
-			{
-				lstcpy(ways[0], &(ways[1]));
-				num[0] += 1;
-			}
-			if (num[0] > 0)
-				check_ways(ways, num);
+			check_ways(ways, num);
 			ft_dlstdel_back(&(ways[num[0]]), &ft_del_content);
 			return (1);
 		}
@@ -168,10 +123,8 @@ void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
 	while (ways[++i])
 	{
 		tmp = ways[i];
-		// ft_printf("\nnew way %d\n", i);
 		while (tmp)
 		{
-			// ft_printf("%s\n", tmp->data);
 			tmp->data_size = 0;
 			tmp = tmp->next;
 		}

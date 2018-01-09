@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 14:12:23 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/09 13:19:28 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/09 14:25:06 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int		check_start_end(t_list *list)
 		return (1);
 	return (0);
 }
+
 t_list	*valid_input(t_list *list, int *ants_num)
 {
 	t_list	*rooms;

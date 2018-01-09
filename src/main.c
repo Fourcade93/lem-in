@@ -12,43 +12,6 @@
 
 #include "lemin.h"
 
-void	print_ways(t_dlist **ways)//delete_me
-{
-	int		i;
-	t_dlist	*tmp;
-
-	i = -1;
-	while (ways[++i])
-	{
-		tmp = ways[i];
-		ft_printf("\nNew_way: %d\n", i);
-		while (tmp)
-		{
-			ft_printf("%s\n", tmp->data);
-			tmp = tmp->next;
-		}
-	}
-}
-
-void	print_rooms(t_list *rooms)
-{
-	t_list	*tmp;
-
-	ft_printf("Rooms:\n");
-	while (rooms)
-	{
-		ft_printf("%s\n", (*((t_room*)rooms->content)).name);
-		tmp = (t_list*)(*((t_room*)rooms->content)).connect;
-		while (tmp)
-		{
-			ft_printf("connect: %s\n", (*((t_room*)(((t_list*)(tmp->content))->content))).name);
-			tmp = tmp->next;
-		}
-		rooms = rooms->next;
-	}
-	ft_printf("\n");
-}
-
 t_list	*read_input(int *ants_num, t_list **list)
 {
 	char	*line;
@@ -74,7 +37,7 @@ void	ways_to_null(t_dlist **ways, int num)
 void	del_ways(t_dlist **ways)
 {
 	int		i;
-	
+
 	i = -1;
 	while (ways[++i])
 		ft_dlstdel(&(ways[i]), &ft_del_content);
@@ -90,7 +53,6 @@ int		main(void)
 	int		ants_num;
 
 	rooms = read_input(&ants_num, &input);
-	// print_rooms(rooms);//delete_me
 	ways_num = check_ways_num(rooms);
 	ways = (t_dlist**)malloc(sizeof(t_dlist*) * (ways_num + 1));
 	ways_to_null(ways, ways_num);
