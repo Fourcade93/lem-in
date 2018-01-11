@@ -44,6 +44,7 @@ void				call_send_ants(t_dlist **ways, int a_num, t_list *input);
 void				check_short_way(t_dlist **ways, int num);
 void				lstcpy(t_dlist *src, t_dlist **dst);
 int					check_infin(int num[4], int count);
-void				check_valid_ways(t_dlist **ways, t_list *rooms, t_list *input);
+void				check_valid_ways(t_dlist **ways, t_list *rooms,
+													t_list *input);
 
 #endif
