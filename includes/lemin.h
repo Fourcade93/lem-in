@@ -18,11 +18,6 @@
 # define START "##start"
 # define END "##end"
 # define MARK "mark"
-# define ER_NUM_ANTS "Error! Ants num misssing!"
-# define ER_START_END "Error start or end!"
-# define ER_ROOM "Error! Not a valid rooms!"
-# define ER_ROOM_CONNECTS "Error! Not a valid room connects!"
-# define ER_WAY "Error! There is no way from start to end!"
 
 typedef struct		s_room
 {

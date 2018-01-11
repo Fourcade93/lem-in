@@ -84,11 +84,13 @@ void	call_send_ants(t_dlist **ways, int a_num, t_list *input)
 
 	cur = 1;
 	end[0] = 0;
-	while (input)
-	{
-		ft_printf("%s\n", input->content);
-		input = input->next;
-	}
+	ft_printf("%s\n", input->content);
+	while ((input = input->next))
+		if (!(ft_strnequ(END, input->content, 2) &&
+			!ft_strequ(END, input->content) &&
+			!ft_strequ(START, input->content) &&
+			((char*)input->content)[2] != '#'))
+			ft_printf("%s\n", input->content);
 	ft_printf("\n");
 	if (ft_dlstlen(ways[0]) == 1)
 		while (end[0] < a_num)
