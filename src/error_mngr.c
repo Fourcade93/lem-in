@@ -24,7 +24,7 @@ void	delone_room(void *content, size_t size)
 	size = 0;
 }
 
-void	error_mngr(int error, t_list *list, t_list *rooms)
+void	error_mngr(t_list *list, t_list *rooms)
 {
 	ft_printf("ERROR\n");
 	ft_lstdel(&list, &ft_del_content);

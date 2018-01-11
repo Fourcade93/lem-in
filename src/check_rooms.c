@@ -103,10 +103,10 @@ t_list	*check_all_rooms(t_list **list, t_list *rooms)
 					(room = check_room((*list)->content, NULL)))
 			ft_list_pushback(&rooms, new_list(room));
 		else if (((char*)(*list)->content)[0] != '#')
-			error_mngr(3, *list, rooms);
+			error_mngr(*list, rooms);
 		(*list) = (*list)->next;
 	}
 	if (!(*list) || !check_duplicate_room(rooms))
-		error_mngr(3, tmp, rooms);
+		error_mngr(tmp, rooms);
 	return (rooms);
 }

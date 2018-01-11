@@ -66,14 +66,14 @@ t_list	*valid_input(t_list *list, int *ants_num)
 	rooms = NULL;
 	tmp = list;
 	if (((char*)list->content)[0] == '\0' || !only_digit(list->content))
-		error_mngr(1, tmp, rooms);
+		error_mngr(tmp, rooms);
 	*ants_num = ft_atoi(list->content);
 	list = list->next;
 	if (!list || !check_start_end(list))
-		error_mngr(2, tmp, rooms);
+		error_mngr(tmp, rooms);
 	if (!list || !(rooms = check_all_rooms(&list, rooms)))
-		error_mngr(3, tmp, rooms);
+		error_mngr(tmp, rooms);
 	if (!list || !check_connections(rooms, list))
-		error_mngr(4, tmp, rooms);
+		error_mngr(tmp, rooms);
 	return (rooms);
 }

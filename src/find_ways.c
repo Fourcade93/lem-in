@@ -108,7 +108,8 @@ void	find_way(t_list *connect, t_dlist **ways, int num[4], int count)
 	find_way_help(connect, ways, num, count);
 }
 
-void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
+void	call_find_way(t_list *rooms, t_dlist **ways,
+							int ways_num, t_list *input)
 {
 	int		num[4];
 	t_list	*rooms2;
@@ -121,5 +122,5 @@ void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
 	num[2] = 0;
 	num[3] = 500;
 	find_way((t_list*)((*((t_room*)(rooms->content))).connect), ways, num, 0);
-	check_valid_ways(ways, rooms2);
+	check_valid_ways(ways, rooms2, input);
 }

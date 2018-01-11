@@ -78,7 +78,7 @@ void	check_ways_len(t_dlist **ways)
 			ft_dlstdel(&(ways[i]), &ft_del_content);
 }
 
-void	check_valid_ways(t_dlist **ways, t_list *rooms)
+void	check_valid_ways(t_dlist **ways, t_list *rooms, t_list *input)
 {
 	int		i;
 	t_dlist	*tmp;
@@ -97,6 +97,6 @@ void	check_valid_ways(t_dlist **ways, t_list *rooms)
 	if (i == 0)
 	{
 		free(ways);
-		error_mngr(5, NULL, rooms);
+		error_mngr(input, rooms);
 	}
 }

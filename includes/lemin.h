@@ -33,17 +33,17 @@ t_room				*check_room(char *str, char *tag);
 t_list				*check_all_rooms(t_list **list, t_list *rooms);
 int					check_duplicate_room(t_list *rooms);
 int					check_connections(t_list *rooms, t_list *list);
-void				error_mngr(int error, t_list *list, t_list *rooms);
+void				error_mngr(t_list *list, t_list *rooms);
 t_list				*valid_input(t_list *list, int *ants_num);
 void				find_way(t_list *connect, t_dlist **ways,
 												int num[2], int count);
 void				call_find_way(t_list *rooms, t_dlist **ways,
-												int ways_num);
+												int ways_num, t_list *input);
 int					check_ways_num(t_list *rooms);
 void				call_send_ants(t_dlist **ways, int a_num, t_list *input);
 void				check_short_way(t_dlist **ways, int num);
 void				lstcpy(t_dlist *src, t_dlist **dst);
 int					check_infin(int num[4], int count);
-void				check_valid_ways(t_dlist **ways, t_list *rooms);
+void				check_valid_ways(t_dlist **ways, t_list *rooms, t_list *input);
 
 #endif
