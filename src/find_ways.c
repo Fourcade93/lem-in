@@ -60,19 +60,19 @@ void	check_ways(t_dlist **ways, int num[2])
 	}
 }
 
-int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
+void	find_way_help(t_list *connect, t_dlist **ways, int num[4], int count)
 {
 	t_room	*tmp;
 
 	while (connect)
 	{
 		tmp = (t_room*)(((t_list*)(connect->content))->content);
-		if (!(*tmp).tag || (!ft_strequ((*tmp).tag, START) &&
-			!ft_strequ((*tmp).tag, MARK)))
+		if (!(*tmp).tag)
 		{
 			(*tmp).tag = ft_strdup(MARK);
 			ft_dlst_pushback(&(ways[num[0]]), ft_dlstnew((*tmp).name,
 					ft_strlen((*tmp).name)));
+			num[2] += 1;
 			find_way((*tmp).connect, ways, num, count + 1);
 			ft_dlstdel_back(&(ways[num[0]]), ft_del_content);
 			ft_strdel(&(*tmp).tag);
@@ -81,57 +81,45 @@ int		find_way_help(t_list *connect, t_dlist **ways, int num[2], int count)
 	}
 	if (count == 0)
 		ft_dlstdel(&(ways[num[1]]), &ft_del_content);
-	return (0);
 }
 
-int		find_way(t_list *connect, t_dlist **ways, int num[2], int count)
+void	find_way(t_list *connect, t_dlist **ways, int num[4], int count)
 {
 	t_list	*tmp;
 	t_room	*buf;
 
-	if (!connect)
-		return (0);
+	if (!connect || check_infin(num, count))
+		return ;
 	tmp = connect;
 	while (tmp)
 	{
 		buf = ((t_room*)(((t_list*)(tmp->content))->content));
-		if (ft_strequ((*buf).tag, END))
+		if ((*buf).tag && ft_strequ((*buf).tag, END))
 		{
 			ft_dlst_pushback(&(ways[num[0]]), ft_dlstnew((*buf).name,
 							ft_strlen((*buf).name) + 1));
 			check_ways(ways, num);
-			ft_dlstdel_back(&(ways[num[0]]), &ft_del_content);
-			return (1);
+			if (count > 0)
+				ft_dlstdel_back(&(ways[num[0]]), &ft_del_content);
+			return ;
 		}
 		tmp = tmp->next;
 	}
-	return (find_way_help(connect, &(*ways), num, count));
+	find_way_help(connect, ways, num, count);
 }
 
 void	call_find_way(t_list *rooms, t_dlist **ways, int ways_num)
 {
-	int		num[2];
-	int		i;
-	t_dlist	*tmp;
+	int		num[4];
+	t_list	*rooms2;
 
+	rooms2 = rooms;
 	while (!ft_strequ((*((t_room*)rooms->content)).tag, START))
 		rooms = rooms->next;
 	num[0] = 0;
 	num[1] = ways_num;
+	num[2] = 0;
+	num[3] = 500;
 	find_way((t_list*)((*((t_room*)(rooms->content))).connect), ways, num, 0);
-	i = -1;
-	while (ways[++i])
-	{
-		tmp = ways[i];
-		while (tmp)
-		{
-			tmp->data_size = 0;
-			tmp = tmp->next;
-		}
-	}
-	if (i == 0)
-	{
-		free(ways);
-		error_mngr(5, NULL, rooms);
-	}
+	check_valid_ways(ways, rooms2);
 }

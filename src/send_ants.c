@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-int		check_for_start(t_dlist **ways, t_dlist *way, int pos)
+int		check_if_free_room(t_dlist **ways, t_dlist *way)
 {
 	int		i;
 	t_dlist	*tmp;
@@ -21,35 +21,13 @@ int		check_for_start(t_dlist **ways, t_dlist *way, int pos)
 	while (ways[++i])
 	{
 		tmp = ways[i];
-		if (i != pos)
-			while (tmp)
-			{
-				if (ft_strequ(tmp->data, way->data) &&
-				tmp->data_size)
-					return (0);
-				tmp = tmp->next;
-			}
-	}
-	return (1);
-}
-
-int		check_if_free_room(t_dlist **ways, t_dlist *way, int pos)
-{
-	int		i;
-	t_dlist	*tmp;
-
-	i = -1;
-	while (ways[++i])
-	{
-		tmp = ways[i];
-		if (i != pos)
-			while (tmp)
-			{
-				if (ft_strequ(tmp->data, way->data) &&
-				tmp->data_size)
-					return (0);
-				tmp = tmp->next;
-			}
+		while (tmp)
+		{
+			if (ft_strequ(tmp->data, way->data) &&
+			tmp->data_size)
+				return (0);
+			tmp = tmp->next;
+		}
 	}
 	return (1);
 }
@@ -63,8 +41,7 @@ void	send_ants_help(int end[2], t_dlist **ways, int pos)
 	while (way->prev)
 	{
 		way = way->prev;
-		if (way->data_size && !way->next->data_size &&
-			check_if_free_room(ways, way->next, pos))
+		if (way->data_size && check_if_free_room(ways, way->next))
 		{
 			if (end[1])
 				ft_printf(" ");
@@ -88,8 +65,7 @@ void	send_ants(t_dlist **ways, int a_num, int *cur, int end[2])
 	while (ways[++i])
 	{
 		send_ants_help(end, ways, i);
-		if (*cur <= a_num && !(ways[i])->data_size &&
-			check_for_start(ways, ways[i], i))
+		if (*cur <= a_num && check_if_free_room(ways, ways[i]))
 		{
 			if (end[1])
 				ft_printf(" ");

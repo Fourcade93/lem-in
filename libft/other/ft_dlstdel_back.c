@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_del_back.c                                 :+:      :+:    :+:   */
+/*   ft_dlstdel_back.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmallaba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/30 20:39:10 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/30 20:39:14 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/05 17:19:32 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@ void	ft_dlstdel_back(t_dlist **alst, void (*del)(void *, size_t))
 
 	if (!alst)
 		return ;
+	if (!((*alst)->next))
+	{
+		ft_dlstdelone(&(*alst), del);
+		return ;
+	}
 	tmp = *alst;
-	while (tmp->next)
+	while (tmp && tmp->next)
 		tmp = tmp->next;
-	ft_dlstdelone(&tmp, del);
+	tmp = tmp->prev;
+	ft_dlstdelone(&(tmp->next), del);
 }

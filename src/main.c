@@ -54,8 +54,8 @@ int		main(void)
 
 	rooms = read_input(&ants_num, &input);
 	ways_num = check_ways_num(rooms);
-	ways = (t_dlist**)malloc(sizeof(t_dlist*) * (ways_num + 1));
-	ways_to_null(ways, ways_num);
+	ways = (t_dlist**)malloc(sizeof(t_dlist*) * (ways_num + 2));
+	ways_to_null(ways, ways_num + 1);
 	call_find_way(rooms, ways, ways_num);
 	call_send_ants(ways, ants_num, input);
 	del_ways(ways);
