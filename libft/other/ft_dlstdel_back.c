@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_mngr.c                                       :+:      :+:    :+:   */
+/*   ft_dlstdel_back.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/28 13:10:35 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/28 17:49:05 by fmallaba         ###   ########.fr       */
+/*   Created: 2017/12/30 20:39:10 by fmallaba          #+#    #+#             */
+/*   Updated: 2018/01/05 17:19:32 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "libft.h"
 
-void	del_rooms(t_room *rooms)
+void	ft_dlstdel_back(t_dlist **alst, void (*del)(void *, size_t))
 {
-	t_room	*buf;
-	if (!rooms)
+	t_dlist	*tmp;
+
+	if (!alst)
 		return ;
-	while (rooms)
+	if (!((*alst)->next))
 	{
-		buf = rooms->next;
-		ft_strdel(&(rooms->name));
-		ft_strdel(&(rooms->tag));
-		ft_lstdel(&(rooms->connect), ft_del_content);
-		free(rooms);
-		rooms = buf;
+		ft_dlstdelone(&(*alst), del);
+		return ;
 	}
-}
-
-void	error_mngr(char *error, t_room *rooms)
-{
-	del_rooms(rooms);
-	ft_printf(error);
-	system("leaks lem-in");
-	exit(-1);
+	tmp = *alst;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	tmp = tmp->prev;
+	ft_dlstdelone(&(tmp->next), del);
 }
