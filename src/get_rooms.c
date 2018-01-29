@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 17:40:20 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/28 18:06:14 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/29 12:13:19 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	init_room(t_main *main, t_room **rooms, char *line, char *tag)
 	room->next = *rooms;
 	*rooms = room;
 	if (ft_strequ(START, tag))
-		(*main).start = room;
+		(*main).start = *rooms;
 	if (ft_strequ(END, tag))
-		(*main).end = room;
+		(*main).end = *rooms;
 }
 
 void	get_start_end(t_main *main, t_room **rooms, char *cur)

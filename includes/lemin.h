@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:21:29 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/28 20:05:15 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/29 12:51:27 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ void				get_connects(t_main main, t_room *rooms, char *line);
 int					only_digit(char *str);
 int					arrlen(char **arr, int num);
 
-void				get_ways(t_main main);
+void				get_ways(t_main main, t_room *rooms);
 
 void 				error_mngr(char *error, t_room *rooms);
+void				dont_del(void *content, size_t size);
 
 #endif

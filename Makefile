@@ -15,11 +15,11 @@ create_libft:
 	@make -C $(LIB_DIR)
 
 $(NAME): $(OBJ)
-	@$(CC) $(FLAGS) -o $@ $^ $(INC_LIB)
+	@$(CC) $(FLAGS) -g -o $@ $^ $(INC_LIB)
 	@echo "Create $(NAME)"
 
 %.o: %.c
-	@$(CC) $(FLAGS) -c -o $@ $< -I$(LIB_INC_DIR) -I$(INC_DIR)
+	@$(CC) $(FLAGS) -g -c -o $@ $< -I$(LIB_INC_DIR) -I$(INC_DIR)
 
 clean:
 	@/bin/rm -f $(OBJ)

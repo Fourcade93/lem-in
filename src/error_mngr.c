@@ -6,11 +6,17 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 13:10:35 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/28 17:49:05 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/29 13:35:30 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+void dont_del(void *content, size_t size)
+{
+	(void)content;
+	(void)size;
+}
 
 void	del_rooms(t_room *rooms)
 {
@@ -22,7 +28,7 @@ void	del_rooms(t_room *rooms)
 		buf = rooms->next;
 		ft_strdel(&(rooms->name));
 		ft_strdel(&(rooms->tag));
-		ft_lstdel(&(rooms->connect), ft_del_content);
+		ft_lstdel(&(rooms->connect), dont_del);
 		free(rooms);
 		rooms = buf;
 	}
