@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 17:40:20 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/29 12:13:19 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/30 16:52:32 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ int		check_duplicate_room(t_room *rooms, t_room *room)
 
 void	init_room(t_main *main, t_room **rooms, char *line, char *tag)
 {
-	char **arr;
-	t_room *room;
+	char	**arr;
+	t_room	*room;
 
 	arr = ft_strsplit(line, ' ');
-	if (!arrlen(arr, 3) || CHECK)
+	if (!arrlen(arr, 3) || !ft_strchr(line, ' ') ||
+		!ft_strchr(ft_strchr(line, ' ') + 1, ' ') ||
+		ft_strchr(ft_strchr(ft_strchr(line, ' ') + 1, ' ') + 1, ' '))
 		error_mngr("ERROR! Invalid room!\n", NULL);
 	if (!only_digit(arr[1]) || !only_digit(arr[2]))
 		error_mngr("ERROR! Invalid room coordinate!\n", NULL);
@@ -81,13 +83,13 @@ void	get_start_end(t_main *main, t_room **rooms, char *cur)
 		if (*line == ' ' || *line == '-' || *line == 'L')
 			error_mngr("ERROR! Invalid room name!\n", NULL);
 		else if (ft_strequ(START, line) || ft_strequ(END, line) ||
-				 (*line != '#' && ft_strchr(line, '-')))
+				(*line != '#' && ft_strchr(line, '-')))
 			error_mngr("ERROR input start or end!\n", NULL);
 		else if (*line != '#')
 		{
 			init_room(&(*main), &(*rooms), line, cur);
 			ft_strdel(&line);
-			break;
+			break ;
 		}
 		ft_strdel(&line);
 	}

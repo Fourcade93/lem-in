@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 17:49:34 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 13:43:48 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/30 16:28:36 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	data_size_to_null(t_main main)
 	}
 }
 
-int		find_num_of_ways(t_main main)
+int		find_num_of_ways(t_list *l_start, t_list *l_end)
 {
 	int	start;
 	int	end;
 
-	start = ft_lstlen(main.start->connect);
-	end = ft_lstlen(main.end->connect);
+	start = ft_lstlen(l_start);
+	end = ft_lstlen(l_end);
 	if (start < end)
 		return (start);
 	return (end);
@@ -52,8 +52,9 @@ t_dlist	**get_ways(t_main main, t_room *rooms)
 	t_list	*arr;
 	t_list	*connect;
 	int		num;
-	
-	if (ft_lstlen(main.start->connect) == 0 || ft_lstlen(main.end->connect) == 0)
+
+	if (ft_lstlen(main.start->connect) == 0 ||
+		ft_lstlen(main.end->connect) == 0)
 		error_mngr("ERROR! Start or end has no connections!\n", rooms);
 	connect = main.start->connect;
 	arr = NULL;
@@ -65,10 +66,10 @@ t_dlist	**get_ways(t_main main, t_room *rooms)
 		connect = connect->next;
 	}
 	start_search(arr);
-	num = find_num_of_ways(main);
+	num = find_num_of_ways(main.start->connect, main.end->connect);
 	main.ways = (t_dlist**)ft_memalloc(sizeof(t_dlist*) * (num + 1));
 	ways_to_null(main, num);
-	init_ways(main, num);
+	init_ways(main, num, rooms);
 	data_size_to_null(main);
 	return (main.ways);
 }

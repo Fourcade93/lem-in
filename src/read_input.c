@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:51:16 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 13:17:18 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/30 16:30:34 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		only_digit(char *str)
 {
 	int	i;
+
 	if (!*str)
 		return (0);
 	i = -1;
@@ -60,7 +61,8 @@ void	read_input(t_main *main, t_room **rooms)
 			(*main).ants = ft_atoi(line);
 			break ;
 		}
-		else if (*line != '#' || (ft_strequ(START, line) || ft_strequ(END, line)))
+		else if (*line != '#' || (ft_strequ(START, line) ||
+				ft_strequ(END, line)))
 			error_mngr("ERROR of ants num!\n", NULL);
 		ft_strdel(&line);
 	}

@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 13:10:35 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/29 13:35:30 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/30 17:41:44 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	dont_del(void *content, size_t size)
 void	del_rooms(t_room *rooms)
 {
 	t_room	*buf;
+
 	if (!rooms)
 		return ;
 	while (rooms)
@@ -36,8 +37,9 @@ void	del_rooms(t_room *rooms)
 
 void	error_mngr(char *error, t_room *rooms)
 {
+	// (void)error;
 	del_rooms(rooms);
+	// ft_printf("ERROR\n");
 	ft_printf(error);
-	system("leaks lem-in");
 	exit(-1);
 }
