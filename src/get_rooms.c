@@ -24,7 +24,6 @@ t_room	*create_room(char **arr, char *tag)
 		room->tag = NULL;
 	room->x = ft_atoi(arr[1]);
 	room->y = ft_atoi(arr[2]);
-	// room->ways = NULL;
 	room->weight = 0;
 	room->connect = NULL;
 	room->next = NULL;

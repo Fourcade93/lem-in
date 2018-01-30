@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:20:18 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/29 20:06:42 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/30 12:58:11 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,18 @@ void print_rooms(t_room *rooms) //delete_me
 void print_ways(t_main main) //delete_me
 {
 	t_dlist *tmp;
+	int		i;
 
-	tmp = main.ways[0];
-	while (tmp)
+	i = -1;
+	while (main.ways[++i])
 	{
-		ft_printf("room: %s\n", tmp->data);
-		tmp = tmp->next;
+		tmp = main.ways[i];
+		ft_printf("\nNew way:\n");
+		while (tmp)
+		{
+			ft_printf("room: %s\n", tmp->data);
+			tmp = tmp->next;
+		}
 	}
 }
 
@@ -52,9 +58,10 @@ int		main(void)
 	main.out = NULL;
 	rooms = NULL;
 	read_input(&main, &rooms);
-	get_ways(main, rooms);
+	main.ways = get_ways(main, rooms);
+	call_send_ants(main.ways, main.ants, main.out);
 	// print_rooms(rooms);
-	print_ways(main);
+	// print_ways(main);
 	// t_list	*tmp = main.end->connect;
 	// while (tmp)
 	// {

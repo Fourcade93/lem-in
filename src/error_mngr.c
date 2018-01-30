@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-void dont_del(void *content, size_t size)
+void	dont_del(void *content, size_t size)
 {
 	(void)content;
 	(void)size;
