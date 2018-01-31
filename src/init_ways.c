@@ -6,26 +6,38 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:23:13 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 18:46:29 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 15:36:23 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int		check_way_exist(char *name, t_dlist **ways)
+void delete_min(t_list **connect, t_list *min)
 {
-	int		i;
-	t_dlist	*tmp;
+	t_list *tmp;
+	t_list *buf;
 
-	i = -1;
-	while (ways[++i])
+	if (ft_strequ(((t_room *)((*connect)->content))->name,
+				  ((t_room *)(min->content))->name))
 	{
-		tmp = ways[i];
-		ft_dlst_toend(&tmp);
-		if (ft_strequ(name, tmp->prev->data))
-			return (1);
+		buf = (*connect)->next;
+		free(*connect);
+		*connect = buf;
+		return;
 	}
-	return (0);
+	tmp = *connect;
+	while (tmp->next)
+	{
+		if (ft_strequ(((t_room *)(tmp->next->content))->name,
+					  ((t_room *)(min->content))->name))
+		{
+			buf = tmp->next->next;
+			free(tmp->next);
+			tmp->next = buf;
+			return;
+		}
+		tmp = tmp->next;
+	}
 }
 
 int		check_ways(t_main main, int i)
@@ -59,6 +71,7 @@ int		check_ways(t_main main, int i)
 void	fill_way(t_main main, t_list *min, int i)
 {
 	t_list	*tmp;
+	t_list	*buf;
 	int		weight;
 
 	ft_dlstadd(&(main.ways[i]), ft_dlstnew(main.end->name,
@@ -69,6 +82,7 @@ void	fill_way(t_main main, t_list *min, int i)
 	tmp = min;
 	while (1)
 	{
+		buf = ((t_room *)(tmp->content))->connect;
 		tmp = ((t_room *)(tmp->content))->connect;
 		while (tmp)
 		{
@@ -85,13 +99,11 @@ void	fill_way(t_main main, t_list *min, int i)
 	}
 }
 
-t_list	*get_min_way(t_list *tmp, t_list *min, int min_len, t_main main)
+t_list	*get_min_way(t_list *tmp, t_list *min)
 {
 	while (tmp)
 	{
-		if ((int)tmp->content_size >= min_len &&
-			tmp->content_size < min->content_size &&
-			!check_way_exist(((t_room*)(tmp->content))->name, main.ways))
+		if (tmp->content_size < min->content_size)
 			min = tmp;
 		tmp = tmp->next;
 	}
@@ -108,22 +120,25 @@ void	init_other_ways(t_main main, int num)
 
 	i = 1;
 	min_len = ft_dlstlen(main.ways[0]);
-	tmp = main.end->connect;
-	max = tmp;
-	while ((tmp = tmp->next))
-		if (max->content_size <= tmp->content_size)
-			max = tmp;
 	while (i < num)
 	{
 		tmp = main.end->connect;
+		max = tmp;
+		while ((tmp = tmp->next))
+			if (max->content_size < tmp->content_size)
+				max = tmp;
+		tmp = main.end->connect;
 		min = max;
-		min = get_min_way(tmp, min, min_len, main);
-		(min->content_size == max->content_size) ? num = 0 : num;
+		min = get_min_way(tmp, min);
 		min_len = min->content_size;
 		fill_way(main, min, i);
+		delete_min(&(main.end->connect), min);
 		if (check_ways(main, i))
 			i++;
+		if (!main.end->connect)
+			break ;
 	}
+	usleep(1000000);
 }
 
 void	init_ways(t_main main, int num, t_room *rooms)
@@ -143,5 +158,6 @@ void	init_ways(t_main main, int num, t_room *rooms)
 	if (min->content_size == 0)
 		error_mngr("ERROR! There is no any way!\n", rooms);
 	fill_way(main, min, 0);
+	delete_min(&(main.end->connect), min);
 	init_other_ways(main, num);
 }
