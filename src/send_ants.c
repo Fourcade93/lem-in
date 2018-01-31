@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 12:51:59 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 16:48:39 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 16:36:12 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,15 @@ void	call_send_ants(t_dlist **ways, int a_num, t_list *input)
 		ft_printf("%s\n", input->content);
 	ft_printf("\n");
 	if (ft_dlstlen(ways[0]) == 1)
+	{
 		while (end[0] < a_num)
 		{
 			if (end[0] > 0)
 				ft_printf(" ");
-			ft_printf("L%d-%s", cur, (ways[0])->data);
-			cur++;
-			end[0] += 1;
+			ft_printf("L%d-%s", ++(end[0]), (ways[0])->data);
 		}
+		ft_printf("\n");
+	}
 	while (end[0] < a_num)
 	{
 		send_ants(ways, a_num, &cur, end);

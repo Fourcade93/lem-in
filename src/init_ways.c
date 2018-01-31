@@ -6,35 +6,35 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:23:13 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/31 16:04:38 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 16:16:28 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void delete_min(t_list **connect, t_list *min)
+void	delete_elem(t_list **connect, t_list *min)
 {
 	t_list *tmp;
 	t_list *buf;
 
 	if (ft_strequ(((t_room *)((*connect)->content))->name,
-				  ((t_room *)(min->content))->name))
+		((t_room *)(min->content))->name))
 	{
 		buf = (*connect)->next;
 		free(*connect);
 		*connect = buf;
-		return;
+		return ;
 	}
 	tmp = *connect;
 	while (tmp->next)
 	{
 		if (ft_strequ(((t_room *)(tmp->next->content))->name,
-					  ((t_room *)(min->content))->name))
+					((t_room *)(min->content))->name))
 		{
 			buf = tmp->next->next;
 			free(tmp->next);
 			tmp->next = buf;
-			return;
+			return ;
 		}
 		tmp = tmp->next;
 	}
@@ -46,8 +46,7 @@ int		check_ways(t_main main, int i)
 	t_dlist	*tmp;
 	t_dlist	*tmp2;
 
-	tmp = main.ways[i];
-	if (!tmp)
+	if (!(tmp = main.ways[i]))
 		return (0);
 	while (tmp->next)
 	{
@@ -68,26 +67,6 @@ int		check_ways(t_main main, int i)
 		tmp = tmp->next;
 	}
 	return (1);
-}
-
-int		fill_way(t_main main, t_list *min, int i, int weight)
-{
-	while (min)
-	{
-		if (ft_strequ(((t_room *)(min->content))->tag, START))
-			return (1);
-		if (((t_room *)(min->content))->weight == weight - 1 &&
-			!((t_room *)(min->content))->tag)
-			if (fill_way(main, ((t_room *)(min->content))->connect, i, weight - 1))
-			{
-				ft_dlst_pushback(&(main.ways[i]), ft_dlstnew(((t_room *)(min->content))->name,
-										ft_strlen(((t_room *)(min->content))->name) + 1));
-				((t_room *)(min->content))->tag = main.mark;
-				return (1);
-			}
-		min = min->next;
-	}
-	return (0);
 }
 
 t_list	*get_min_way(t_list *tmp, t_list *min)
@@ -121,8 +100,8 @@ void	init_other_ways(t_main main, int num)
 		min = get_min_way(tmp, min);
 		if (fill_way(main, min, i, min->content_size))
 			ft_dlst_pushback(&(main.ways[i]), ft_dlstnew(main.end->name,
-														 ft_strlen(main.end->name) + 1));
-		delete_min(&(main.end->connect), min);
+								ft_strlen(main.end->name) + 1));
+		delete_elem(&(main.end->connect), min);
 		if (check_ways(main, i))
 			i++;
 		if (!main.end->connect)
@@ -149,6 +128,6 @@ void	init_ways(t_main main, int num, t_room *rooms)
 	if (fill_way(main, min, 0, min->content_size))
 		ft_dlst_pushback(&(main.ways[0]), ft_dlstnew(main.end->name,
 								ft_strlen(main.end->name) + 1));
-	delete_min(&(main.end->connect), min);
+	delete_elem(&(main.end->connect), min);
 	init_other_ways(main, num);
 }

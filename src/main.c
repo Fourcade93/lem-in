@@ -6,46 +6,24 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:20:18 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/31 15:41:24 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 16:34:56 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void print_rooms(t_room *rooms) //delete_me
+int		check_shortest_way(t_main main)
 {
-	t_list *tmp;
-	while (rooms)
-	{
-		ft_printf("name: %s %d %d\n", rooms->name, rooms->x, rooms->y);
-		ft_printf("weight: %d\n", rooms->weight);
-		tmp = rooms->connect;
-		// while (tmp)
-		// {
-		// 	ft_printf("connect: %s %d %d\n", ((t_room *)(tmp->content))->name, ((t_room *)(tmp->content))->x, ((t_room *)(tmp->content))->y);
-		// 	tmp = tmp->next;
-		// }
-		ft_printf("\n");
-		rooms = rooms->next;
-	}
-}
+	t_list	*tmp;
 
-void print_ways(t_main main) //delete_me
-{
-	t_dlist *tmp;
-	int i;
-
-	i = -1;
-	while (main.ways[++i])
+	tmp = main.start->connect;
+	while (tmp)
 	{
-		tmp = main.ways[i];
-		ft_printf("\nNew way:\n");
-		while (tmp)
-		{
-			ft_printf("room: %s\n", tmp->data);
-			tmp = tmp->next;
-		}
+		if (ft_strequ(((t_room*)(tmp->content))->tag, END))
+			return (1);
+		tmp = tmp->next;
 	}
+	return (0);
 }
 
 int		main(void)
@@ -59,7 +37,16 @@ int		main(void)
 	main.mark = ft_strdup("mark");
 	rooms = NULL;
 	read_input(&main, &rooms);
-	main.ways = get_ways(main, rooms);
+	if (!check_shortest_way(main))
+		main.ways = get_ways(main, rooms);
+	else
+	{
+		main.ways = (t_dlist**)ft_memalloc(sizeof(t_dlist*) * 2);
+		main.ways[1] = NULL;
+		main.ways[0] = NULL;
+		ft_dlstadd(&(main.ways[0]), ft_dlstnew(main.end->name,
+								ft_strlen(main.end->name) + 1));
+	}
 	call_send_ants(main.ways, main.ants, main.out);
 	return (0);
 }
