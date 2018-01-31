@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:20:18 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 17:41:14 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 15:41:24 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		main(void)
 	main.start = NULL;
 	main.end = NULL;
 	main.out = NULL;
+	main.mark = ft_strdup("mark");
 	rooms = NULL;
 	read_input(&main, &rooms);
 	main.ways = get_ways(main, rooms);

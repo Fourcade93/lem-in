@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:21:29 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 16:52:37 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 15:41:28 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_main
 	t_room			*rooms;
 	t_dlist			**ways;
 	t_list			*out;
+	char			*mark;
 }					t_main;
 
 void				read_input(t_main *main, t_room **rooms);

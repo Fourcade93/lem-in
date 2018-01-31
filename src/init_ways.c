@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:23:13 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/31 15:36:23 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 16:04:38 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int		check_ways(t_main main, int i)
 	t_dlist	*tmp2;
 
 	tmp = main.ways[i];
+	if (!tmp)
+		return (0);
 	while (tmp->next)
 	{
 		j = -1;
@@ -68,35 +70,24 @@ int		check_ways(t_main main, int i)
 	return (1);
 }
 
-void	fill_way(t_main main, t_list *min, int i)
+int		fill_way(t_main main, t_list *min, int i, int weight)
 {
-	t_list	*tmp;
-	t_list	*buf;
-	int		weight;
-
-	ft_dlstadd(&(main.ways[i]), ft_dlstnew(main.end->name,
-							ft_strlen(main.end->name) + 1));
-	ft_dlstadd(&(main.ways[i]), ft_dlstnew(((t_room *)(min->content))->name,
-							ft_strlen(((t_room *)(min->content))->name) + 1));
-	weight = min->content_size - 1;
-	tmp = min;
-	while (1)
+	while (min)
 	{
-		buf = ((t_room *)(tmp->content))->connect;
-		tmp = ((t_room *)(tmp->content))->connect;
-		while (tmp)
-		{
-			if (((t_room *)(tmp->content))->weight == weight - 1 &&
-				!ft_strequ(((t_room *)(tmp->content))->name, main.end->name))
-				break ;
-			tmp = tmp->next;
-		}
-		if (ft_strequ(((t_room *)(tmp->content))->name, main.start->name))
-			break ;
-		ft_dlstadd(&(main.ways[i]), ft_dlstnew(((t_room *)(tmp->content))->name,
-								ft_strlen(((t_room *)(tmp->content))->name) + 1));
-		weight--;
+		if (ft_strequ(((t_room *)(min->content))->tag, START))
+			return (1);
+		if (((t_room *)(min->content))->weight == weight - 1 &&
+			!((t_room *)(min->content))->tag)
+			if (fill_way(main, ((t_room *)(min->content))->connect, i, weight - 1))
+			{
+				ft_dlst_pushback(&(main.ways[i]), ft_dlstnew(((t_room *)(min->content))->name,
+										ft_strlen(((t_room *)(min->content))->name) + 1));
+				((t_room *)(min->content))->tag = main.mark;
+				return (1);
+			}
+		min = min->next;
 	}
+	return (0);
 }
 
 t_list	*get_min_way(t_list *tmp, t_list *min)
@@ -113,13 +104,11 @@ t_list	*get_min_way(t_list *tmp, t_list *min)
 void	init_other_ways(t_main main, int num)
 {
 	int		i;
-	int		min_len;
 	t_list	*max;
 	t_list	*min;
 	t_list	*tmp;
 
 	i = 1;
-	min_len = ft_dlstlen(main.ways[0]);
 	while (i < num)
 	{
 		tmp = main.end->connect;
@@ -130,15 +119,15 @@ void	init_other_ways(t_main main, int num)
 		tmp = main.end->connect;
 		min = max;
 		min = get_min_way(tmp, min);
-		min_len = min->content_size;
-		fill_way(main, min, i);
+		if (fill_way(main, min, i, min->content_size))
+			ft_dlst_pushback(&(main.ways[i]), ft_dlstnew(main.end->name,
+														 ft_strlen(main.end->name) + 1));
 		delete_min(&(main.end->connect), min);
 		if (check_ways(main, i))
 			i++;
 		if (!main.end->connect)
 			break ;
 	}
-	usleep(1000000);
 }
 
 void	init_ways(t_main main, int num, t_room *rooms)
@@ -157,7 +146,9 @@ void	init_ways(t_main main, int num, t_room *rooms)
 			min = tmp;
 	if (min->content_size == 0)
 		error_mngr("ERROR! There is no any way!\n", rooms);
-	fill_way(main, min, 0);
+	if (fill_way(main, min, 0, min->content_size))
+		ft_dlst_pushback(&(main.ways[0]), ft_dlstnew(main.end->name,
+								ft_strlen(main.end->name) + 1));
 	delete_min(&(main.end->connect), min);
 	init_other_ways(main, num);
 }
