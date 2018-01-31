@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:51:16 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 16:30:34 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/01/31 18:57:49 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int		arrlen(char **arr, int num)
 void	read_input(t_main *main, t_room **rooms)
 {
 	char	*line;
+	int		ret;
 
-	(void)rooms;
-	while (get_next_line(0, &line))
+	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		ft_list_pushback(&((*main).out), ft_lstnew(line, ft_strlen(line) + 1));
 		if (only_digit(line))
@@ -59,6 +59,7 @@ void	read_input(t_main *main, t_room **rooms)
 			if (ft_atoi(line) == 0)
 				error_mngr("ERROR of ants num!\n", NULL);
 			(*main).ants = ft_atoi(line);
+			ft_strdel(&line);
 			break ;
 		}
 		else if (*line != '#' || (ft_strequ(START, line) ||
@@ -66,7 +67,8 @@ void	read_input(t_main *main, t_room **rooms)
 			error_mngr("ERROR of ants num!\n", NULL);
 		ft_strdel(&line);
 	}
-	ft_strdel(&line);
+	if (ret < 0)
+		error_mngr("ERROR! Invalid input!\n", NULL);
 	line = get_rooms(&(*main), &(*rooms));
 	if (!(*main).start || !(*main).end)
 		error_mngr("ERROR! Start or end missing!\n", *rooms);
