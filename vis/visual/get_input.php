@@ -39,7 +39,7 @@ if (isset($_GET['connections'])) {
 	echo trim($connections);
 }
 if (isset($_GET['output'])) {
-	echo preg_replace('/L/', "", trim($output));
+	echo trim($output);
 }
 if (isset($_GET['start'])) {
 	echo $startRoom;

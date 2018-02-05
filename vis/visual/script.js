@@ -1,27 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="utf-8">
-	<title>Visual</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script
-  		src="https://code.jquery.com/jquery-3.3.1.min.js"
-  		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  		crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/20.1.4/min/jcanvas.min.js"></script>
-</head>
-<body>
-	<canvas id="canvas" width="1600" height="1100">
-		
-	</canvas>
-	<script>
-		var canvas;
+var canvas;
 var ctx;
 var rooms;
 var start;
 var end;
 var moves;
 var ants;
+var cur_move = 0;
 
 function roomsFactory(rooms) {
 	rooms = rooms.split('\n');
@@ -53,7 +37,7 @@ function movesFactory(data) {
 		var obj = {};
 		var singl = data[i].split(' ');
 		for (var j = 0; j < singl.length; j++) {
-			var one = singl[i].split('-');
+			var one = singl[j].split('-');
 			obj[one[0]] = one[1];
 		};
 		ret.push(obj);
@@ -92,34 +76,57 @@ $(document).ready(function() {
 			}
 		}
 		for (key in rooms) {
-			var color = (key == start) ? 'yellow' : 'green';
+			var color = (key == start) ? 'black' : 'green';
 			color = (key == end) ? 'red' : color;
-			canvas.drawArc({
+			canvas.drawRect({
 				layer: true,
 				fillStyle: color,
 				strokeStyle: 'red',
 				stroleWidth: 2,
 				x: rooms[key].x, y: rooms[key].y,
-				radius: 15
+				width: 40, height: 40
+			}).drawText({
+				fillStyle: '#fff',
+				layer: true,
+				x: rooms[key].x, y: rooms[key].y,
+				fontSize: 16,
+				fontFamily: 'Verdana, sans-serif',
+				text: key
 			});
 		}
-		canvas.drawArc({
-			name: 'room',
-			layer: true,
-			x: rooms[start].x, y: rooms[start].y,
-			radius: 15,
-			fillStyle: 'brown'
-		});
-		$(document).bind('keypress', function(event) {
+		for (var i = 1; i <= ants; i++) {
+			canvas.drawArc({
+				name: "L" + i,
+				layer: true,
+				x: rooms[start].x, y: rooms[start].y,
+				radius: 18,
+				fillStyle: 'brown'
+			}).drawText({
+				fillStyle: '#fff',
+				name: "L" + i + "t",
+				layer: true,
+				x: rooms[start].x, y: rooms[start].y,
+				fontSize: 16,
+				fontFamily: 'Verdana, sans-serif',
+				text: 'L' + i
+			});
+		}
+		$(document).bind("keypress", function(event) {
 			if (event.which == 50) {
-				canvas.animateLayer('room', {
-					x: 200, y: 100
-				});
+				if (cur_move < moves.length) {
+					cur_move++;
+					for (elem in moves[cur_move]) {
+						canvas.animateLayer(elem, {
+							x: rooms[moves[cur_move][elem]].x,
+							y: rooms[moves[cur_move][elem]].y
+						}, 1500);
+						canvas.animateLayer(elem + "t", {
+							x: rooms[moves[cur_move][elem]].x,
+							y: rooms[moves[cur_move][elem]].y
+						}, 1500);
+					}
+				}
 			}
 		});
 	});
 });
-	</script>
-	<!-- <script src="script.js"></script> -->
-</body>
-</html>
