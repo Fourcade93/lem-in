@@ -1,5 +1,5 @@
 SRC := main.c read_input.c error_mngr.c get_rooms.c get_connects.c get_ways.c \
-send_ants.c search_ways.c init_ways.c fill_way.c
+send_ants.c search_ways.c init_ways.c fill_way.c check_ways.c
 SRC := $(addprefix src/, $(SRC))
 OBJ := $(SRC:.c=.o)
 INC_DIR = includes/

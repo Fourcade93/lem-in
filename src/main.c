@@ -6,11 +6,27 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:20:18 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/31 16:34:56 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/05 19:59:12 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+void	print_ways(t_dlist **ways)//delete_me
+{
+	int	i = -1;
+
+	while (ways[++i])
+	{
+		t_dlist	*tmp = ways[i];
+		ft_printf("\nWay number %d:\n", i);
+		while (tmp)
+		{
+			ft_printf("%s\n", tmp->data);
+			tmp = tmp->next;
+		}
+	}
+}
 
 int		check_shortest_way(t_main main)
 {

@@ -114,7 +114,6 @@ $(document).ready(function() {
 		$(document).bind("keypress", function(event) {
 			if (event.which == 50) {
 				if (cur_move < moves.length) {
-					cur_move++;
 					for (elem in moves[cur_move]) {
 						canvas.animateLayer(elem, {
 							x: rooms[moves[cur_move][elem]].x,
@@ -125,6 +124,7 @@ $(document).ready(function() {
 							y: rooms[moves[cur_move][elem]].y
 						}, 1500);
 					}
+					cur_move++;
 				}
 			}
 		});

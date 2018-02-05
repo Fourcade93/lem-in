@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 12:21:29 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/31 16:17:01 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/01 14:29:55 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int					arrlen(char **arr, int num);
 t_dlist				**get_ways(t_main main, t_room *rooms);
 void				start_search(t_list *arr);
 void				init_ways(t_main main, int num, t_room *rooms);
+int					check_ways(t_dlist **ways, int i);
 int					fill_way(t_main main, t_list *min, int i, int weight);
 
 void				call_send_ants(t_dlist **ways, int a_num, t_list *input);

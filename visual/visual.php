@@ -11,7 +11,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/20.1.4/min/jcanvas.min.js"></script>
 </head>
 <body>
-	<canvas id="canvas" width="1600" height="1100">
+	<canvas id="canvas" width="2500" height="1350">
 		
 	</canvas>
 

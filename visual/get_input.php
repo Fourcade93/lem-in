@@ -24,7 +24,7 @@ foreach ($arr as $val) {
 		$end = 1;
 	if (preg_match('/[^#]+(.+) ([0-9]+) ([0-9]+)$/', $val))
 		$rooms .= $val.PHP_EOL;
-	if (preg_match('/^[^#][^-]+-[^-]+$/', $val))
+	if (preg_match('/^[^#L][^-]+-[^-]+$/', $val))
 		$connections .= $val.PHP_EOL;
 	if (preg_match('/^L/', $val))
 		$output .= $val.PHP_EOL;
