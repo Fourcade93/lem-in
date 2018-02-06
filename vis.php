@@ -7,9 +7,11 @@ while ($line = fgets(STDIN)) {
 	$i++;
 }
 
-if ($i > 1) {
+if ($i > 2) {
 	file_put_contents('visual/input', $input);
 	shell_exec('sh visual/vis.sh');
+} else {
+	echo $input;
 }
 
 ?>
