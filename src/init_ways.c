@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:23:13 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/02/05 19:58:19 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/06 13:56:27 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	init_other_ways(t_main main, int num)
 	while (i < num)
 	{
 		if (!main.end->connect)
-			break;
+			break ;
 		tmp = main.end->connect;
 		max = tmp;
 		while (tmp && (tmp = tmp->next))
@@ -79,6 +79,7 @@ void	init_other_ways(t_main main, int num)
 			i++;
 	}
 }
+
 void	init_ways(t_main main, int num, t_room *rooms)
 {
 	t_list *tmp;

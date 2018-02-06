@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 17:47:30 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/02/06 13:46:57 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/06 13:54:54 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	get_connects(t_main main, t_room *rooms, char *line)
 		if (*line != '#' && add_connect(rooms, line))
 		{
 			ft_strdel(&line);
-			break;
+			break ;
 		}
 		ft_list_pushback(&(main.out), ft_lstnew(line, ft_strlen(line) + 1));
 		ft_strdel(&line);
