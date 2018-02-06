@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 17:47:30 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/01/30 18:13:28 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/06 13:46:57 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,8 @@ void	get_connects(t_main main, t_room *rooms, char *line)
 		error_mngr("ERROR! Connects are invalid!\n", rooms);
 	}
 	ft_strdel(&line);
-	while (get_next_line(0, &line))
+	while (get_next_line(0, &line) > 0)
 	{
-		ft_list_pushback(&(main.out), ft_lstnew(line, ft_strlen(line) + 1));
 		if (ft_strequ(START, line) || ft_strequ(END, line))
 		{
 			ft_printf("ERROR! Duplicate start or end!\n");
@@ -81,7 +80,11 @@ void	get_connects(t_main main, t_room *rooms, char *line)
 			break ;
 		}
 		if (*line != '#' && add_connect(rooms, line))
-			break ;
+		{
+			ft_strdel(&line);
+			break;
+		}
+		ft_list_pushback(&(main.out), ft_lstnew(line, ft_strlen(line) + 1));
 		ft_strdel(&line);
 	}
 }
