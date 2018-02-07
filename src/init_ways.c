@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:23:13 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/02/06 13:56:27 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/06 15:02:41 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ void	delete_elem(t_list **connect, t_list *min)
 			return ;
 		}
 		tmp = tmp->next;
+	}
+}
+
+void	delete_no_way_connect(t_main main)
+{
+	t_list	*tmp;
+
+	tmp = main.end->connect;
+	while (tmp)
+	{
+		if (tmp->content_size == 0)
+		{
+			delete_elem(&(main.end->connect), tmp);
+			tmp = main.end->connect;
+		}
+		else if (tmp)
+			tmp = tmp->next;
 	}
 }
 
@@ -85,14 +102,7 @@ void	init_ways(t_main main, int num, t_room *rooms)
 	t_list *tmp;
 	t_list *min;
 
-	tmp = main.end->connect;
-	while (tmp)
-	{
-		if (tmp->content_size == 0)
-			delete_elem(&(main.end->connect), tmp);
-		else
-			tmp = tmp->next;
-	}
+	delete_no_way_connect(main);
 	tmp = main.end->connect;
 	min = tmp;
 	while (tmp && (tmp = tmp->next))

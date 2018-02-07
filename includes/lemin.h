@@ -17,6 +17,7 @@
 
 # define START "##start"
 # define END "##end"
+# define SRAV "SRAV"
 
 typedef struct		s_room
 {

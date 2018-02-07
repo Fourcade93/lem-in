@@ -47,20 +47,17 @@ function movesFactory(data) {
 
 $(document).ready(function() {
 	canvas = $('#canvas');
-	$.get('get_input.php?rooms=get', function(data, status) {
+	$.get('get_input.php?rooms=get', function (data, status) {
 		rooms = roomsFactory(data);
 	});
-	$.get('get_input.php?start=get', function(data, status) {
+	$.get('get_input.php?start=get', function (data, status) {
 		start = data;
 	});
-	$.get('get_input.php?end=get', function(data, status) {
+	$.get('get_input.php?end=get', function (data, status) {
 		end = data;
 	});
-	$.get('get_input.php?ants=get', function(data, status) {
+	$.get('get_input.php?ants=get', function (data, status) {
 		ants = parseInt(data);
-	});
-	$.get('get_input.php?output=get', function(data, status) {
-		moves = movesFactory(data);
 	});
 	$.get('get_input.php?connections=get', function(data, status) {
 		var connections = connectFactory(data);
@@ -94,6 +91,9 @@ $(document).ready(function() {
 				text: key
 			});
 		}
+	});
+	$.get('get_input.php?output=get', function (data, status) {
+		moves = movesFactory(data);
 		for (var i = 1; i <= ants; i++) {
 			canvas.drawArc({
 				name: "L" + i,
@@ -111,22 +111,22 @@ $(document).ready(function() {
 				text: 'L' + i
 			});
 		}
-		$(document).bind("keypress", function(event) {
-			if (event.which == 50) {
-				if (cur_move < moves.length) {
-					for (elem in moves[cur_move]) {
-						canvas.animateLayer(elem, {
-							x: rooms[moves[cur_move][elem]].x,
-							y: rooms[moves[cur_move][elem]].y
-						}, 1500);
-						canvas.animateLayer(elem + "t", {
-							x: rooms[moves[cur_move][elem]].x,
-							y: rooms[moves[cur_move][elem]].y
-						}, 1500);
-					}
-					cur_move++;
+	});
+	$(document).bind("keypress", function (event) {
+		if (event.which == 50) {
+			if (cur_move < moves.length) {
+				for (elem in moves[cur_move]) {
+					canvas.animateLayer(elem, {
+						x: rooms[moves[cur_move][elem]].x,
+						y: rooms[moves[cur_move][elem]].y
+					}, 1500);
+					canvas.animateLayer(elem + "t", {
+						x: rooms[moves[cur_move][elem]].x,
+						y: rooms[moves[cur_move][elem]].y
+					}, 1500);
 				}
+				cur_move++;
 			}
-		});
+		}
 	});
 });

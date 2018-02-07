@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 17:47:30 by fmallaba          #+#    #+#             */
-/*   Updated: 2018/02/06 13:54:54 by fmallaba         ###   ########.fr       */
+/*   Updated: 2018/02/06 15:48:43 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ int		add_connect(t_room *rooms, char *line)
 	arr = ft_strsplit(line, '-');
 	if (!arrlen(arr, 2) || !ft_strchr(line, '-') ||
 		ft_strchr(ft_strchr(line, '-') + 1, '-'))
-		return (ft_printf("ERROR! Invalid room connect!\n"));
+		error_mngr("ERROR! Invalid room connect!\n", rooms);
 	first = check_room_exist(rooms, arr[0]);
 	second = check_room_exist(rooms, arr[1]);
 	ft_strdel(&(arr[0]));
 	ft_strdel(&(arr[1]));
 	free(arr);
 	if (!first || !second)
-		return (ft_printf("ERROR! Connect with non exist room!\n"));
+		error_mngr("ERROR! Connect with non exist room!\n", rooms);
 	if (ft_strequ(first->name, second->name))
-		return (ft_printf("ERROR! Connect with itself!\n"));
+		error_mngr("ERROR! Connect with itself!\n", rooms);
 	if (check_duplicate_connect(first->connect, second->name))
 		return (0);
 	ft_lstadd(&(first->connect), ft_lstnew(NULL, 0));
@@ -75,8 +75,8 @@ void	get_connects(t_main main, t_room *rooms, char *line)
 	{
 		if (ft_strequ(START, line) || ft_strequ(END, line))
 		{
-			ft_printf("ERROR! Duplicate start or end!\n");
 			ft_strdel(&line);
+			error_mngr("ERROR! Duplicate start or end!\n", rooms);
 			break ;
 		}
 		if (*line != '#' && add_connect(rooms, line))
